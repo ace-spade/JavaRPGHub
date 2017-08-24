@@ -22,6 +22,7 @@ public class Gear {
     }
     public static void plateArmor()
     {
+        aRat[2]=10;
         mw.armorName="Plate Armor";
         mw.soak=10;
         System.out.println("You found Plate Armor");
