@@ -10,22 +10,32 @@ public class Monsters {
     //done
     public static void snake()
     {
-        monsterHealth=3;
+        monsterHealth=2;
         notice =0;
 
         System.out.println("A snake Appears! Will you attack?");
         attackChoose = mw.in.nextLine();
-        if(attackChoose.equals("y"))
+        while(attackChoose.equals("y") && monsterHealth>0)
         {
+            monsterHealth-=mw.attack+mw.weapBonus;
+            if(monsterHealth<=0){
+                monsterHealth=0;
 
-            System.out.println("The Snake Is Dead.");
-            mw.xp+=50;
-            mw.lvlUp();
-            mw.stealth+=0.5;
-        }else
-        {
-            System.out.println("You Escaped.");
-            mw.stealth++;
+                System.out.println("The Snake Is Dead.");
+                mw.xp+=100;
+                mw.lvlUp();
+                mw.stealth+=0.5;
+            }else{
+
+                damage(mw.health,mw.soak,monsterDamage);
+                System.out.println("You hit the Snake, doing "+ mw.attack+mw.weapBonus + " damage. It hits you with " + monsterDamage + " damage.");
+                if(mw.health<=0)
+                {
+                    System.out.println("You Died.");
+                    mw.gameOver=true;
+                }
+            }
+
         }
     }
     //done
@@ -33,13 +43,13 @@ public class Monsters {
     {
 
         monsterHealth=10;
-        monsterDamage=2;
+        monsterDamage=3;
         notice=2;
         System.out.println("Out shambles a zombie! Will you attack?");
         attackChoose = mw.in.nextLine();
         while(attackChoose.equals("y") && monsterHealth>0)
         {
-            monsterHealth-=mw.attack;
+            monsterHealth-=mw.attack+mw.weapBonus;
             if(monsterHealth<=0){
                 monsterHealth=0;
 
@@ -50,7 +60,7 @@ public class Monsters {
             }else{
 
                 damage(mw.health,mw.soak,monsterDamage);
-                System.out.println("You hit the zombie, doing "+ mw.attack + " damage. It hits you with " + monsterDamage + " damage.");
+                System.out.println("You hit the zombie, doing "+ mw.attack+mw.weapBonus + " damage. It hits you with " + monsterDamage + " damage.");
                 if(mw.health<=0)
                 {
                     System.out.println("You Died.");
@@ -68,7 +78,7 @@ public class Monsters {
             else{
                 while(monsterHealth>0)
                 {
-                    monsterHealth-=mw.attack;
+                    monsterHealth-=mw.attack+mw.weapBonus;
                     if(monsterHealth<=0){
                         monsterHealth=0;
                         System.out.println("The Zombie Is Dead.");
@@ -78,7 +88,7 @@ public class Monsters {
                     }else{
 
                         damage(mw.health,mw.soak,monsterDamage);
-                        System.out.println("You hit the zombie, doing "+ mw.attack + " damage. It hits you with " + monsterDamage + " damage.");
+                        System.out.println("You hit the zombie, doing "+ mw.attack+mw.weapBonus + " damage. It hits you with " + monsterDamage + " damage.");
                         if(mw.health<=0)
                         {
                             System.out.println("You Died.");
@@ -93,15 +103,15 @@ public class Monsters {
     public static void pirate()
     {
         monsterHealth=12;
-        monsterDamage=3;
+        monsterDamage=4;
         notice=3;
         System.out.println("From the water comes a Pirate, do you want to fight?");
         attackChoose = mw.in.nextLine();
         while(attackChoose.equals("y") && monsterHealth>0)
         {
-            if(mw.attack>monsterDamage)
+            if(mw.attack+mw.weapBonus>monsterDamage)
             {
-                monsterHealth -= mw.attack;
+                monsterHealth -= mw.attack+mw.weapBonus;
                 if (monsterHealth <= 0) {
                     monsterHealth = 0;
                     System.out.println("The Pirate Is Dead.");
@@ -111,7 +121,7 @@ public class Monsters {
                 } else {
 
                     damage(mw.health, mw.soak, monsterDamage);
-                    System.out.println("You hit the pirate, doing " + mw.attack + " damage. It hits you with " + monsterDamage + " damage.");
+                    System.out.println("You hit the pirate, doing " + mw.attack+mw.weapBonus + " damage. It hits you with " + monsterDamage + " damage.");
                     if (mw.health <= 0) {
                         System.out.println("You Died.");
                         mw.gameOver = true;
@@ -129,9 +139,9 @@ public class Monsters {
             {
                 while(monsterHealth>0)
                 {
-                    if(mw.attack>monsterDamage)
+                    if(mw.attack+mw.weapBonus>monsterDamage)
                     {
-                        monsterHealth -= mw.attack;
+                        monsterHealth -= mw.attack+mw.weapBonus;
                         if (monsterHealth <= 0) {
                             monsterHealth = 0;
                             System.out.println("The Pirate Is Dead.");
@@ -141,7 +151,7 @@ public class Monsters {
                         } else {
 
                             damage(mw.health, mw.soak, monsterDamage);
-                            System.out.println("You hit the pirate, doing " + mw.attack + " damage. It hits you with " + monsterDamage + " damage.");
+                            System.out.println("You hit the pirate, doing " + mw.attack+mw.weapBonus + " damage. It hits you with " + monsterDamage + " damage.");
                             if (mw.health <= 0) {
                                 System.out.println("You Died.");
                                 mw.gameOver = true;
@@ -156,14 +166,14 @@ public class Monsters {
     public static void witch(){
         monsterHealth=15;
         monsterDamage=5;
-        notice=5;
+        notice=10;
         System.out.println("A Witch flies in on a broomstick. Will you attack?");
         attackChoose=mw.in.nextLine();
         while(attackChoose.equals("y") && monsterHealth>0)
         {
-            if(mw.attack>monsterDamage)
+            if(mw.attack+mw.weapBonus>monsterDamage)
             {
-                monsterHealth -= mw.attack;
+                monsterHealth -= mw.attack+mw.weapBonus;
                 if (monsterHealth <= 0) {
                     monsterHealth = 0;
                     System.out.println("The Witch Is Dead.");
@@ -173,7 +183,7 @@ public class Monsters {
                 } else {
 
                     damage(mw.health, mw.soak, monsterDamage);
-                    System.out.println("You hit the witch, doing " + mw.attack + " damage. It hits you with " + monsterDamage + " damage.");
+                    System.out.println("You hit the witch, doing " + mw.attack+mw.weapBonus + " damage. It hits you with " + monsterDamage + " damage.");
                     if (mw.health <= 0) {
                         System.out.println("You Died.");
                         mw.gameOver = true;
@@ -191,9 +201,9 @@ public class Monsters {
             {
                 while(monsterHealth>0)
                 {
-                    if(mw.attack>monsterDamage)
+                    if(mw.attack+mw.weapBonus>monsterDamage)
                     {
-                        monsterHealth -= mw.attack;
+                        monsterHealth -= mw.attack+mw.weapBonus;
                         if (monsterHealth <= 0) {
                             monsterHealth = 0;
                             System.out.println("The Witch Is Dead.");
@@ -203,7 +213,7 @@ public class Monsters {
                         } else {
 
                             damage(mw.health, mw.soak, monsterDamage);
-                            System.out.println("You hit the witch, doing " + mw.attack + " damage. It hits you with " + monsterDamage + " damage.");
+                            System.out.println("You hit the witch, doing " + mw.attack+mw.weapBonus + " damage. It hits you with " + monsterDamage + " damage.");
                             if (mw.health <= 0) {
                                 System.out.println("You Died.");
                                 mw.gameOver = true;
@@ -224,9 +234,9 @@ public class Monsters {
         attackChoose=mw.in.nextLine();
         while(attackChoose.equals("y") && monsterHealth>0)
         {
-            if(mw.attack>monsterDamage)
+            if(mw.attack+mw.weapBonus+mw.weapBonus>monsterDamage)
             {
-                monsterHealth -= mw.attack;
+                monsterHealth -= mw.attack+mw.weapBonus+mw.weapBonus;
                 if (monsterHealth <= 0) {
                     monsterHealth = 0;
                     System.out.println("The Ghost Is Dead.");
@@ -236,7 +246,7 @@ public class Monsters {
                 } else {
 
                     damage(mw.health, mw.soak, monsterDamage);
-                    System.out.println("You hit the ghost, doing " + mw.attack + " damage. It hits you with " + monsterDamage + " damage.");
+                    System.out.println("You hit the ghost, doing " + mw.attack+mw.weapBonus+mw.weapBonus + " damage. It hits you with " + monsterDamage + " damage.");
                     if (mw.health <= 0) {
                         System.out.println("You Died.");
                         mw.gameOver = true;
@@ -254,9 +264,9 @@ public class Monsters {
             {
                 while(monsterHealth>0)
                 {
-                    if(mw.attack>monsterDamage)
+                    if(mw.attack+mw.weapBonus+mw.weapBonus>monsterDamage)
                     {
-                        monsterHealth -= mw.attack;
+                        monsterHealth -= mw.attack+mw.weapBonus+mw.weapBonus;
                         if (monsterHealth <= 0) {
                             monsterHealth = 0;
                             System.out.println("The Ghost Is Dead.");
@@ -266,7 +276,7 @@ public class Monsters {
                         } else {
 
                             damage(mw.health, mw.soak, monsterDamage);
-                            System.out.println("You hit the ghost, doing " + mw.attack + " damage. It hits you with " + monsterDamage + " damage.");
+                            System.out.println("You hit the ghost, doing " + mw.attack+mw.weapBonus+mw.weapBonus + " damage. It hits you with " + monsterDamage + " damage.");
                             if (mw.health <= 0) {
                                 System.out.println("You Died.");
                                 mw.gameOver = true;
@@ -286,7 +296,7 @@ public class Monsters {
         attackChoose = mw.in.nextLine();
         while(attackChoose.equals("y")&& monsterHealth>0)
         {
-            monsterHealth-=mw.attack;
+            monsterHealth-=mw.attack+mw.weapBonus+mw.weapBonus;
             if(monsterHealth<=0) {
                 monsterHealth=0;
                 System.out.println("The dragon is dead. You get 2 life.");
@@ -294,7 +304,7 @@ public class Monsters {
                 mw.stealth+=1;
             }else{
                 damage(mw.health,mw.soak,monsterDamage);
-                System.out.println("You hit the Dragon, doing "+ mw.attack + " damage. It hits you with " + monsterDamage + " damage.");
+                System.out.println("You hit the Dragon, doing "+ mw.attack+mw.weapBonus+mw.weapBonus + " damage. It hits you with " + monsterDamage + " damage.");
                 if(mw.health<=0)
                 {
                     System.out.println("You Died.");
@@ -313,9 +323,9 @@ public class Monsters {
             {
                 while(monsterHealth>0)
                 {
-                    if(mw.attack>monsterDamage)
+                    if(mw.attack+mw.weapBonus+mw.weapBonus>monsterDamage)
                     {
-                        monsterHealth -= mw.attack;
+                        monsterHealth -= mw.attack+mw.weapBonus+mw.weapBonus;
                         if (monsterHealth <= 0) {
                             monsterHealth = 0;
                             System.out.println("The Ghost Is Dead.");
@@ -325,7 +335,7 @@ public class Monsters {
                         } else {
 
                             damage(mw.health, mw.soak, monsterDamage);
-                            System.out.println("You hit the ghost, doing " + mw.attack + " damage. It hits you with " + monsterDamage + " damage.");
+                            System.out.println("You hit the ghost, doing " + mw.attack+mw.weapBonus+mw.weapBonus + " damage. It hits you with " + monsterDamage + " damage.");
                             if (mw.health <= 0) {
                                 System.out.println("You Died.");
                                 mw.gameOver = true;
@@ -345,7 +355,7 @@ public class Monsters {
         attackChoose = mw.in.nextLine();
         while(attackChoose.equals("y")&& monsterHealth>0)
         {
-            monsterHealth-=mw.attack;
+            monsterHealth-=mw.attack+mw.weapBonus+mw.weapBonus;
             if(monsterHealth<=0){
                 monsterHealth=0;
                 System.out.println("The Demon is dead. You get 2 life.");
@@ -353,7 +363,7 @@ public class Monsters {
                 mw.stealth+=2;
             }else{
                 damage(mw.health,mw.soak,monsterDamage);
-                System.out.println("You hit the Demon, doing "+ mw.attack + " damage. It hits you with " + monsterDamage + " damage.");
+                System.out.println("You hit the Demon, doing "+ mw.attack+mw.weapBonus + " damage. It hits you with " + monsterDamage + " damage.");
                 if(mw.health<=0)
                 {
                     System.out.println("You Died.");

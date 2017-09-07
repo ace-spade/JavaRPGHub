@@ -2,6 +2,8 @@
  * Created by spade on 2017-06-26.
  */
 //imports classes
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
+
 import java.io.IOException;
 import java.util.Scanner;
 import java.io.File;
@@ -12,11 +14,11 @@ public class MainWorld  {
     static String[][][] world = new String[10][10][5];
     //player attributes
     static int health;
-    static int attack=1;
-    static int soak=0;
+    static int attack = 1;
+    static int soak = 0;
     static int xp = 0;
-    static int lv=0;
-    static int weapBonus=0;
+    static int lv = 1;
+    static int weapBonus=1;
     static double stealth=0;
     static String weaponName="None";
     static String armorName="None";
@@ -27,13 +29,15 @@ public class MainWorld  {
     static Scanner in = new Scanner(System.in);
     private static void load()
     {
-        if(gameOver==false)
+
 
         try {
 
             File saveFile = new File(fileName);
             Scanner fileIn = new Scanner(saveFile);
             name = fileIn.nextLine();
+            armorName=fileIn.nextLine();
+            weaponName=fileIn.nextLine();
             System.out.println(name);
             x=fileIn.nextInt();
             y=fileIn.nextInt();
@@ -41,8 +45,6 @@ public class MainWorld  {
             health=fileIn.nextInt();
             attack=fileIn.nextInt();
             soak=fileIn.nextInt();
-            armorName=fileIn.nextLine();
-            weaponName=fileIn.nextLine();
             weapBonus=fileIn.nextInt();
             stealth=fileIn.nextDouble();
             xp=fileIn.nextInt();
@@ -77,25 +79,30 @@ public class MainWorld  {
             lv=1;
             health+=20;
             attack+=3;
+            System.out.println("You Levelled Up!");
         }
         if(xp>1000 && lv<2){
             lv=2;
             health+=20;
             attack+=3;
+            System.out.println("You Levelled Up!");
         }
         if(xp>2000 && lv<3){
             lv=3;
             health+=20;
             attack+=2;
+            System.out.println("You Levelled Up!");
         }
         if(xp>3500 && lv<4){
             lv=4;
             health+=20;
             attack+=2;
+            System.out.println("You Levelled Up!");
         }
-        if(xp>5000){
+        if(xp>5000&& lv<5){
             lv=5;
             health+=10;
+            System.out.println("You Levelled Up!");
         }
     }
 
@@ -103,89 +110,67 @@ public class MainWorld  {
         if(gameOver==false)
         {
 
-            int randArmor = ((int) Math.random()*10);
+            int randArmor = (int) Math.floor(Math.random()*20);
             if(randArmor==9){
-                int armorChoice = ((int) Math.random()*7);
+                int armorChoice = (int) Math.floor(Math.random()*7);
                 switch (armorChoice)
                 {
                     case 0:
-                        if(Gear.aRat[0]>soak)
-
                             Gear.ironArmor();
                         break;
                     case 1:
-                        if(Gear.aRat[1]>soak)
                             Gear.chainArmor();
                         break;
                     case 2:
-                        if(Gear.aRat[2]>soak)
                             Gear.plateArmor();
                         break;
                     case 3:
-                        if(Gear.aRat[3]>soak)
                             Gear.magicArmor1();
                         break;
-
                     case 4:
-                        if(Gear.aRat[4]>soak)
                             Gear.magicArmor2();
                         break;
                     case 5:
-                        if(Gear.aRat[5]>soak)
                             Gear.magicArmor3();
                         break;
                     case 6:
-                        if(Gear.aRat[6]>soak)
                             Gear.legendaryArmor();
                         break;
                 }
             }
-            int randWeapon=((int)(Math.random()*10));
+            int randWeapon=(int) Math.floor(Math.random()*20);
             if(randWeapon==9)
             {
-                int weaponChoice=((int)(Math.random()*7));
+                int weaponChoice=(int)Math.floor(Math.random()*7) ;
                 switch (weaponChoice){
                     case 0:
-                        if(Gear.wDam[weaponChoice]>weapBonus)
-                        {
                             Gear.woodSword();
-                        }
+
                         break;
                     case 1:
-                        if(Gear.wDam[weaponChoice]>weapBonus)
-                        {
                             Gear.ironSword();
-                        }
+
                         break;
                     case 2:
-                        if(Gear.wDam[weaponChoice]>weapBonus)
-                        {
+
                             Gear.steelSword();
-                        }
+
                         break;
                     case 3:
-                        if(Gear.wDam[weaponChoice]>weapBonus)
-                        {
                             Gear.magicSword();
-                        }
+
                         break;
                     case 4:
-                        if(Gear.wDam[weaponChoice]>weapBonus)
-                        {
                             Gear.lightSword();
-                        }
+
                         break;
                     case 5:
-                        if(Gear.wDam[weaponChoice]>weapBonus)
-                        {
                             Gear.vineSword();
-                        }
+
                         break;
                     case 6:
-                        if(Gear.wDam[weaponChoice]>weapBonus)
-                        {
                             Gear.titaniumSword();
-                        }
+
                         break;
                 }
             }
@@ -221,6 +206,32 @@ public class MainWorld  {
                     if (climbChoose.equals("y")) {
                         z--;
                     }
+                    System.out.println("Do you want to climb up the cliff?");
+                    climbChoose = in.nextLine();
+                    if (climbChoose.equals("y")) {
+                        z++;
+                    }
+                }
+                if (z == 2)
+                {
+                    System.out.println("Do you want to climb down the cliff?");
+                    String climbChoose = in.nextLine();
+                    if (climbChoose.equals("y")) {
+                        z--;
+                    }
+                    System.out.println("Do you want to climb up the cliff?");
+                    climbChoose = in.nextLine();
+                    if (climbChoose.equals("y")) {
+                        z++;
+                    }
+                }
+                if (z == 3)
+                {
+                    System.out.println("Do you want to climb down the cliff?");
+                    String climbChoose = in.nextLine();
+                    if (climbChoose.equals("y")) {
+                        z--;
+                    }
                 }
             }
 
@@ -230,7 +241,7 @@ public class MainWorld  {
                 {
                     Monsters.zombie();
                 }
-                if(x>=5 && y<=3)
+                if(x>=5 && y>=3)
                 {
                     Monsters.snake();
                 }
@@ -291,24 +302,26 @@ public class MainWorld  {
             try {
                 PrintWriter writer = new PrintWriter(fileName, "UTF-8");
                 writer.println(name);
+                writer.println(armorName);
+                writer.println(weaponName);
                 writer.println(x);
                 writer.println(y);
                 writer.println(z);
                 writer.println(health);
                 writer.println(attack);
                 writer.println(soak);
-                writer.println(armorName);
-                writer.println(weaponName);
                 writer.println(weapBonus);
                 writer.println(stealth);
                 writer.println(xp);
                 writer.close();
-            } catch (IOException e) {
+            } catch (IOException e)
+            {
                 // do something
             }
             System.out.println("Check Stats?");
             String statCheck = in.nextLine();
-            if (statCheck.equals("y")) {
+            if (statCheck.equals("y"))
+            {
                 System.out.println(name);
                 System.out.println("Health: " + health);
                 System.out.println("Attack: " + attack);
@@ -321,30 +334,35 @@ public class MainWorld  {
             }
             System.out.println("Where do you want to go?");
             String dir = in.nextLine();
-            switch (dir) {
+            switch (dir)
+            {
                 case "u":
-                    if (y <= 8) {
+                    if (y <= 8)
+                    {
                         y++;
                     }
 
                     place(world);
                     break;
                 case "d":
-                    if (y >= 1) {
+                    if (y >= 1)
+                    {
                         y--;
                     }
 
                     place(world);
                     break;
                 case "l":
-                    if (x >= 1) {
+                    if (x >= 1)
+                    {
                         x--;
                     }
 
                     place(world);
                     break;
                 case "r":
-                    if (x <= 8) {
+                    if (x <= 8)
+                    {
                         x++;
                     }
 
